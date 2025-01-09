@@ -24,8 +24,8 @@ class Client:
 
         return response.json()
     
-    def spectate_game(self, puuid:str, in_game_region:str):
-        endpoint = f"https://{in_game_region}.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/{puuid}"
+    def spectate_game(self, puuid:str, platform_region:str):
+        endpoint = f"https://{platform_region}.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/{puuid}"
         headers = self.request_headers()
 
         response = requests.get(endpoint, headers=headers)
