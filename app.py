@@ -1,7 +1,7 @@
 import json
 import time
 from lib.client import Client
-from lib.utils import generate_keys
+from lib.utils import generate_keys, get_champions, get_champion
 
 KEY = generate_keys()
 REGION = 'americas'
@@ -23,17 +23,16 @@ def spectate_game():
 
     return game
 
-def convert_milliseconds(ms):
-    # Convert milliseconds to seconds
-    seconds = ms // 1000
-    # Calculate minutes and remaining seconds
-    minutes = seconds // 60
-    seconds = seconds % 60
-    # Format as minutes:seconds (e.g., 02:30)
-    return f"{minutes:02}:{seconds:02}"
-
-def main():
-    #game = spectate_game()
+def get_game_duration():
+    def convert_ms(ms):
+        # Convert milliseconds to seconds
+        seconds = ms // 1000
+        # Calculate minutes and remaining seconds
+        minutes = seconds // 60
+        seconds = seconds % 60
+        # Format as minutes:seconds (e.g., 02:30)
+        return f"{minutes:02}:{seconds:02}"
+    
     with open("./output/sample_spectate_game_response.json", "r") as f:
         data = json.load(f)
 
@@ -42,9 +41,21 @@ def main():
 
     elapsed_time = current_time - start_time
 
-    elapsed_time_in_minutes = convert_milliseconds(elapsed_time)
+    elapsed_time_in_minutes = convert_ms(elapsed_time)
 
     print(elapsed_time_in_minutes)
+
+def main():
+    champions = get_champions()
+
+    #for champion in champions['data']:
+        #print(f"{champion}| Key: {champions['data'][champion]['key']}")
+    
+    champions_list = [champion for champion in champions['data']]
+
+    champion = get_champion(champions_list[151], True)
+
+
 
 
 if __name__ == '__main__':
